@@ -10,22 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Забираем твой репозиторий
+      # 1. Забираем репозиторий
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Настраиваем Node.js в облаке GitHub (7 ГБ ОЗУ, сервер отдыхает)
+      # 2. Поднимаем свежий Node.js 22
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      # 3. Собираем Quartz Digital Garden
+      # 3. Собираем Quartz
       - name: Build Quartz
         run: |
           git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
           cp -r content/* /tmp/quartz/content/
           cd /tmp/quartz
+          npm install -g npm@latest
           npm ci
           npx quartz build
 
