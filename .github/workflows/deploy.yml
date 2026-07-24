@@ -1,4 +1,4 @@
-name: Deploy Main Site and Quartz Garden
+name: Deploy Main Site and Styled Quartz Garden
 
 on:
   push:
@@ -20,11 +20,17 @@ jobs:
         with:
           node-version: 22
 
-      # 3. Собираем Quartz (используем npm install вместо npm ci)
+      # 3. Собираем Quartz с НАШИМИ стилями
       - name: Build Quartz
         run: |
           git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
+          
+          # Копируем заметки
           cp -r content/* /tmp/quartz/content/
+          
+          # Копируем НАШИ кастомные стили поверх дефолтных
+          cp custom.scss /tmp/quartz/quartz/styles/custom.scss 2>/dev/null || true
+
           cd /tmp/quartz
           npm install
           npx quartz build
@@ -34,7 +40,7 @@ jobs:
           cp $GITHUB_WORKSPACE/index.html $GITHUB_WORKSPACE/script.js $GITHUB_WORKSPACE/style.css $GITHUB_WORKSPACE/dist/ 2>/dev/null || true
           cp -r /tmp/quartz/public/* $GITHUB_WORKSPACE/dist/garden/
 
-      # 4. Выгружаем готовые static-файлы на VPS
+      # 4. Выгружаем на VPS
       - name: Copy built files to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
