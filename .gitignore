@@ -1,0 +1,15 @@
+# Зависимости Node
+node_modules/
+
+# Служебный мусор Обсидиана (чтобы изменения окон и плагинов не лезли в коммиты)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/app.json
+
+# Сборка и кэш
+public/
+.quartz-cache/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
