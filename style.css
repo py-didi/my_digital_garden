@@ -1,19 +1,117 @@
+:root {
+    --bg-color: #030308;
+    --text-color: #00ff66;
+    --accent-pink: #ff0055;
+    --accent-cyan: #00f0ff;
+    --card-bg: rgba(10, 10, 25, 0.88);
+    --font-header: 'Press Start 2P', monospace;
+    --font-body: 'Silkscreen', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    background-color: #121212;
-    color: #e0e0e0;
-    font-family: system-ui, -apple-system, sans-serif;
-    max-width: 650px;
-    margin: 40px auto;
-    padding: 0 20px;
-    line-height: 1.6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
-h1, h2 {
+/* Космический канвас */
+#space-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Эффект полос CRT-монитора */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.35) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Окно терминала / Карточка */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 620px;
+    padding: 2.5rem 2rem;
+    background: var(--card-bg);
+    border: 4px solid var(--accent-cyan);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.15);
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Заголовок с 3D-сдвигом */
+h1.glitch-title {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
     color: #ffffff;
+    text-shadow: 3px 3px 0px var(--accent-pink), -3px -3px 0px var(--accent-cyan);
+    margin-bottom: 1.2rem;
+    letter-spacing: 2px;
 }
 
-hr {
-    border: 0;
-    border-top: 1px solid #333;
-    margin: 20px 0;
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.5rem;
+}
+
+.pixel-hr {
+    border: none;
+    height: 4px;
+    background: var(--accent-pink);
+    box-shadow: 0 0 10px var(--accent-pink);
+    margin: 1.5rem 0;
+}
+
+.card h2 {
+    font-family: var(--font-header);
+    font-size: 0.95rem;
+    color: #ffff00;
+    margin-bottom: 1.2rem;
+}
+
+.card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Мигающий текст */
+.blink {
+    animation: blinker 1.2s infinite;
+    color: var(--accent-pink);
+    margin-top: 1.5rem;
+}
+
+@keyframes blinker {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
 }

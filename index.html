@@ -4,16 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Antresoli — Digital Garden</title>
+    
+    <!-- Подключаем ретро-шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <h1>The Antresoli</h1>
-        <p>Цифровой сад, музыка и эксперименты.</p>
-        <hr>
-        <section>
-            <h2>Статус</h2>
+    <!-- Фоновый холст для динамического космоса -->
+    <canvas id="space-canvas"></canvas>
+    
+    <!-- CRT-сетка кинескопа -->
+    <div class="crt-overlay"></div>
+
+    <main class="container">
+        <header>
+            <h1 class="glitch-title">THE ANTRESOLI</h1>
+            <p class="subtitle">&gt; DIGITAL_GARDEN // V1.0</p>
+        </header>
+
+        <hr class="pixel-hr">
+
+        <section class="card">
+            <h2>[ STATUS ]</h2>
+            <p>DIY. BEATMAKING. INDIEWEB EXPLORER.</p>
+            <p class="blink">&gt; INSERT COIN TO CONTINUE._</p>
         </section>
     </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
