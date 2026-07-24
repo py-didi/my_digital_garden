@@ -3,7 +3,7 @@ name: Auto Deploy to VPS
 on:
   push:
     branches:
-      - main  # Если твоя главная ветка называется master, укажи master
+      - main
 
 jobs:
   deploy:
@@ -18,7 +18,29 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            # 1. ОБНОВЛЯЕМ ГЛАВНЫЙ САЙТ (index.html, style.css, script.js)
             git config --global --add safe.directory /var/www/my_digital_garden
             cd /var/www/my_digital_garden
             git fetch origin
             git reset --hard origin/${{ github.ref_name }}
+
+            # 2. СОБИРАЕМ DIGITAL GARDEN (Quartz)
+            # Скачиваем Quartz во временную папку /tmp/quartz (чтобы не мусорить в проекте)
+            rm -rf /tmp/quartz
+            git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
+
+            # Копируем твои .md заметки из content/ в Quartz
+            cp -r /var/www/my_digital_garden/content/* /tmp/quartz/content/
+
+            # Билдим HTML
+            cd /tmp/quartz
+            npm install
+            npx quartz build
+
+            # 3. ПУБЛИКУЕМ САД В /garden/
+            mkdir -p /var/www/my_digital_garden/garden
+            rm -rf /var/www/my_digital_garden/garden/*
+            cp -r /tmp/quartz/public/* /var/www/my_digital_garden/garden/
+
+            # Удаляем временный строительный мусор
+            rm -rf /tmp/quartz
