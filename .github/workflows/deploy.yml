@@ -1,4 +1,4 @@
-name: Deploy Main Site Only
+name: Deploy Main Site and Quartz Garden
 
 on:
   push:
@@ -6,18 +6,42 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Забираем твой репозиторий
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Copy index, style, script to VPS
+      # 2. Настраиваем Node.js в облаке GitHub (7 ГБ ОЗУ, сервер отдыхает)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Собираем Quartz Digital Garden
+      - name: Build Quartz
+        run: |
+          git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
+          cp -r content/* /tmp/quartz/content/
+          cd /tmp/quartz
+          npm ci
+          npx quartz build
+
+          # Готовим итоговую папку для выгрузки
+          mkdir -p $GITHUB_WORKSPACE/dist/garden
+          cp $GITHUB_WORKSPACE/index.html $GITHUB_WORKSPACE/script.js $GITHUB_WORKSPACE/style.css $GITHUB_WORKSPACE/dist/ 2>/dev/null || true
+          cp -r /tmp/quartz/public/* $GITHUB_WORKSPACE/dist/garden/
+
+      # 4. Выгружаем готовые static-файлы на VPS
+      - name: Copy built files to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "index.html,style.css,script.js"
+          source: "dist/*"
           target: "/var/www/my_digital_garden"
+          strip_components: 1
