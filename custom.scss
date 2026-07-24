@@ -1,5 +1,19 @@
-// Подтягиваем ретро-шрифты
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+// Подтягиваем ретро-шрифты через @font-face (без @import, чтобы PostCSS не ругался)
+@font-face {
+    font-family: 'VT323';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/vt323/v17/pxiByp0ihIEF2isfFJA.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Share Tech Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/sharetechmono/v15/Jjd4Te36-B-NtqsoMOV2wX9P_4E.woff2') format('woff2');
+}
 
 // Общий фон страницы
 body {
@@ -8,7 +22,7 @@ body {
     font-family: 'Share Tech Mono', monospace !important;
 }
 
-// Превращаем центральную область Quartz в твои "неоновые карточки"
+// Превращаем центральную область Quartz в неоновую карточку
 .page {
     max-width: 800px !important;
     margin: 40px auto !important;
