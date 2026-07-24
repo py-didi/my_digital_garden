@@ -14,20 +14,19 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Поднимаем свежий Node.js 22
+      # 2. Поднимаем Node.js 22
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # 3. Собираем Quartz
+      # 3. Собираем Quartz (используем npm install вместо npm ci)
       - name: Build Quartz
         run: |
           git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
           cp -r content/* /tmp/quartz/content/
           cd /tmp/quartz
-          npm install -g npm@latest
-          npm ci
+          npm install
           npx quartz build
 
           # Готовим итоговую папку для выгрузки
