@@ -1,0 +1,64 @@
+// Подтягиваем ретро-шрифты
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+// Общий фон страницы
+body {
+    background-color: #000000 !important;
+    color: #00ff66 !important;
+    font-family: 'Share Tech Mono', monospace !important;
+}
+
+// Превращаем центральную область Quartz в твои "неоновые карточки"
+.page {
+    max-width: 800px !important;
+    margin: 40px auto !important;
+    padding: 30px !important;
+    background-color: #000000 !important;
+    border: 2px solid #00f0ff !important;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.1) !important;
+    border-radius: 2px;
+}
+
+// Заголовки в стиле главной (VT323 / Neon Cyan)
+h1,
+h2,
+h3,
+.page-title,
+a.internal {
+    font-family: 'VT323', monospace !important;
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #00f0ff !important;
+    letter-spacing: 1px;
+}
+
+// Разделительные линии (Розовый неон)
+hr {
+    border: none !important;
+    border-top: 2px solid #ff0055 !important;
+    box-shadow: 0 0 8px #ff0055 !important;
+    margin: 20px 0 !important;
+}
+
+// Ссылки
+a {
+    color: #00ff66 !important;
+    text-decoration: none !important;
+
+    &:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 8px #00ff66 !important;
+    }
+}
+
+// Всплывающий поиск и боковые панели
+.explorer,
+.sidebar,
+search {
+    font-family: 'Share Tech Mono', monospace !important;
+}
+
+// Граф заметок (Graph View)
+.graph {
+    border: 1px solid #ff0055 !important;
+    box-shadow: 0 0 8px rgba(255, 0, 85, 0.3) !important;
+}
