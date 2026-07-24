@@ -24,14 +24,14 @@
         <hr class="pixel-hr">
 
         <nav class="arcade-menu">
-            <a href="/garden/" class="menu-item">
-                <span class="prefix">&gt;</span> [ 01 // DIGITAL GARDEN ]
-            </a>
-            <!-- Вторая кнопка теперь вызывает Popup -->
-            <button id="media-btn" class="menu-item">
-                <span class="prefix">&gt;</span> [ 02 // MUSIC & MEDIA ]
-            </button>
-        </nav>
+    <a href="/garden/" class="menu-item">
+        <span class="prefix">&gt;</span> [ 01 // DIGITAL GARDEN ]
+    </a>
+    <!-- Теперь тоже <a>, браузер рендерит 1 в 1 как верхнюю -->
+    <a href="#" id="media-btn" class="menu-item">
+        <span class="prefix">&gt;</span> [ 02 // MUSIC & MEDIA ]
+    </a>
+</nav>
 
         <hr class="pixel-hr">
 
@@ -86,7 +86,6 @@
         <section class="video-section">
             <div class="video-header">&gt; LATEST TRANSMISSION</div>
             <div class="video-wrapper">
-                <!-- Не забудь вставить свой UU-ID вместо UU_YOUR_CHANNEL_ID -->
                 <iframe 
                     src="https://www.youtube.com/embed/videoseries?list=UUaxMG3u89JFoh1HgNVnIR6w" 
                     title="Latest Video" 
