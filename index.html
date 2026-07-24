@@ -4,35 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Antresoli — Digital Garden</title>
-    
-    <!-- Подключаем ретро-шрифты -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Фоновый холст для динамического космоса -->
     <canvas id="space-canvas"></canvas>
-    
-    <!-- CRT-сетка кинескопа -->
     <div class="crt-overlay"></div>
 
     <main class="container">
         <header>
             <h1 class="glitch-title">THE ANTRESOLI</h1>
-            <p class="subtitle">&gt; DIGITAL_GARDEN // V1.0</p>
+            <p class="subtitle">&gt; SELECT_MODE // V1.0</p>
         </header>
 
         <hr class="pixel-hr">
 
-        <section class="card">
-            <h2>[ STATUS ]</h2>
-            <p>DIY. BEATMAKING. INDIEWEB EXPLORER.</p>
-            <p class="blink">&gt; INSERT COIN TO CONTINUE._</p>
+        <nav class="arcade-menu">
+            <a href="/garden/" class="menu-item">
+                <span class="prefix">&gt;</span> [ 01 // DIGITAL GARDEN ]
+            </a>
+            <!-- Вторая кнопка теперь вызывает Popup -->
+            <button id="media-btn" class="menu-item">
+                <span class="prefix">&gt;</span> [ 02 // MUSIC & MEDIA ]
+            </button>
+        </nav>
+
+        <hr class="pixel-hr">
+
+        <section class="status-bar">
+            <p class="blink">PRESS ENTER OR CLICK TO START._</p>
         </section>
     </main>
+
+    <!-- Попап / Модальное окно -->
+    <div id="media-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>[ SELECT PLATFORM ]</h2>
+                <button id="close-modal" class="close-btn">[X]</button>
+            </div>
+            
+            <hr class="pixel-hr">
+
+            <div class="media-grid">
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@theantresoli" target="_blank" class="media-card">
+                    <svg class="media-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <span>YOUTUBE</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/the_antresoli" target="_blank" class="media-card">
+                    <svg class="media-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.68-.55.84-1.12.52l-3.05-2.25-1.47 1.42c-.16.16-.3.3-.62.3l.22-3.1 5.64-5.1c.25-.22-.05-.34-.38-.12l-6.97 4.39-3.01-.94c-.66-.21-.67-.66.14-.98l11.77-4.54c.55-.2 1.03.13.83.98z"/>
+                    </svg>
+                    <span>TELEGRAM</span>
+                </a>
+
+                <!-- SoundCloud (Пример) -->
+                <a href="https://soundcloud.com/theantresoli" class="media-card">
+                    <svg class="media-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.56 8.87V17h8.76c1.48 0 2.68-1.2 2.68-2.68 0-1.48-1.2-2.68-2.68-2.68-.22 0-.43.03-.64.08C19.26 9.8 17.5 8.5 15.4 8.5c-.52 0-1.02.08-1.49.24-.65-1.55-2.21-2.62-4.02-2.62-1.3 0-2.47.56-3.28 1.46V17h1.68V8.87c.39-.56 1.02-.92 1.74-.92 1.18 0 2.14.96 2.14 2.14v6.91h1.68V8.87z"/>
+                    </svg>
+                    <span>SOUNDCLOUD</span>
+                </a>
+            </div>
+
+            <p class="modal-footer">&gt; PRESS ESC OR CLICK OUTSIDE TO CLOSE</p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

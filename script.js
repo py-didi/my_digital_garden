@@ -42,3 +42,32 @@ function animate() {
 }
 
 animate();
+// Логика модального окна Media
+const mediaBtn = document.getElementById('media-btn');
+const mediaModal = document.getElementById('media-modal');
+const closeModal = document.getElementById('close-modal');
+
+function openModal() {
+    mediaModal.classList.remove('hidden');
+}
+
+function closeModalFunc() {
+    mediaModal.classList.add('hidden');
+}
+
+mediaBtn.addEventListener('click', openModal);
+closeModal.addEventListener('click', closeModalFunc);
+
+// Закрытие по клику мимо окна
+mediaModal.addEventListener('click', (e) => {
+    if (e.target === mediaModal) {
+        closeModalFunc();
+    }
+});
+
+// Закрытие по кнопке ESC
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mediaModal.classList.contains('hidden')) {
+        closeModalFunc();
+    }
+});
