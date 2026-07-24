@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "44cd32caf337c1f3",
@@ -183,7 +184,7 @@
       "bases:Создать новую базу": false
     }
   },
-  "active": "119363e54c075291",
+  "active": "3ec2938812a0fb17",
   "lastOpenFiles": [
     "index.md"
   ]

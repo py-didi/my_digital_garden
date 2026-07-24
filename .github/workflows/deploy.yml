@@ -1,4 +1,4 @@
-name: Auto Deploy to VPS
+name: Deploy Main Site Only
 
 on:
   push:
@@ -8,39 +8,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Copy index, style, script to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          script: |
-            # 1. ОБНОВЛЯЕМ ГЛАВНЫЙ САЙТ (index.html, style.css, script.js)
-            git config --global --add safe.directory /var/www/my_digital_garden
-            cd /var/www/my_digital_garden
-            git fetch origin
-            git reset --hard origin/${{ github.ref_name }}
-
-            # 2. СОБИРАЕМ DIGITAL GARDEN (Quartz)
-            # Скачиваем Quartz во временную папку /tmp/quartz (чтобы не мусорить в проекте)
-            rm -rf /tmp/quartz
-            git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
-
-            # Копируем твои .md заметки из content/ в Quartz
-            cp -r /var/www/my_digital_garden/content/* /tmp/quartz/content/
-
-            # Билдим HTML
-            cd /tmp/quartz
-            npm install
-            npx quartz build
-
-            # 3. ПУБЛИКУЕМ САД В /garden/
-            mkdir -p /var/www/my_digital_garden/garden
-            rm -rf /var/www/my_digital_garden/garden/*
-            cp -r /tmp/quartz/public/* /var/www/my_digital_garden/garden/
-
-            # Удаляем временный строительный мусор
-            rm -rf /tmp/quartz
+          source: "index.html,style.css,script.js"
+          target: "/var/www/my_digital_garden"
