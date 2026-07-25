@@ -1,4 +1,4 @@
-name: Auto Deploy Custom SSG to VPS
+name: Build in GitHub Actions and Deploy to VPS
 
 on:
   push:
@@ -6,44 +6,34 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      # 1. Забираем код репозитория
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Поднимаем Python прямо в облаке GitHub
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Собираем весь сайт
+      - name: Build Site
+        run: |
+          pip install -r requirements.txt
+          python3 build.py
+
+      # 4. Закидываем готовый HTML/CSS на твой VPS
+      - name: Copy files to VPS via SCP
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          script: |
-            set -e
-
-            # 1. ПРОВЕРЯЕМ И ОБНОВЛЯЕМ ИСХОДНИКИ
-            git config --global --add safe.directory /var/www/my_digital_garden
-
-            if [ ! -d "/var/www/my_digital_garden/.git" ]; then
-              echo "Папка не является git-репозиторием. Инициализируем..."
-              rm -rf /var/www/my_digital_garden
-              git clone https://github.com/py-didi/my_digital_garden.git /var/www/my_digital_garden
-              cd /var/www/my_digital_garden
-            else
-              cd /var/www/my_digital_garden
-              git fetch --all
-              git reset --hard origin/main
-            fi
-
-            # 2. УСТАНАВЛИВАЕМ ЗАВИСИМОСТИ И СОБИРАЕМ САД
-            python3 -m pip install -r requirements.txt --break-system-packages || python3 -m pip install -r requirements.txt
-            python3 build.py
-
-            # 3. ПУБЛИКУЕМ САД В /garden/
-            mkdir -p /var/www/my_digital_garden/garden
-            rm -rf /var/www/my_digital_garden/garden/*
-            cp -r /var/www/my_digital_garden/dist/garden/. /var/www/my_digital_garden/garden/
-
-            # 4. ЧИСТКА ВРЕМЕННОЙ СБОРКИ
-            rm -rf /var/www/my_digital_garden/dist
-
-            echo "=== ВСЁ СТИЛЬНО И ЧИСТО ЗАДЕПЛОЕНО ==="
+          source: "dist/*"
+          target: "/var/www/my_digital_garden"
+          strip_prefix: "dist"

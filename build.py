@@ -1,3 +1,5 @@
+# build.py
+
 import os
 import shutil
 
@@ -13,11 +15,11 @@ STATIC_DIR = "static"
 
 def build():
     # 1. Подготовка папки назначения
-    if os.path.exists(OUTPUT_DIR):
-        shutil.rmtree(OUTPUT_DIR)
+    if os.path.exists("dist"):
+        shutil.rmtree("dist")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # 2. Копирование статики (логотип, css)
+    # 2. Копирование статики сада (логотип, garden.css)
     out_static = os.path.join(OUTPUT_DIR, "static")
     if os.path.exists(STATIC_DIR):
         shutil.copytree(STATIC_DIR, out_static)
@@ -33,7 +35,6 @@ def build():
                 filepath = os.path.join(root, file)
                 post = frontmatter.load(filepath)
 
-                # Парсим Markdown
                 html_content = markdown.markdown(
                     post.content, extensions=["fenced_code", "tables", "nl2br"]
                 )
@@ -42,7 +43,6 @@ def build():
 
                 rendered_html = template.render(title=title, content=html_content)
 
-                # Формируем имя выходящего файла
                 rel_dir = os.path.relpath(root, CONTENT_DIR)
                 target_dir = (
                     os.path.join(OUTPUT_DIR, rel_dir) if rel_dir != "." else OUTPUT_DIR
@@ -59,7 +59,12 @@ def build():
                 with open(out_path, "w", encoding="utf-8") as f:
                     f.write(rendered_html)
 
-    print("=== DIGITAL GARDEN УСПЕШНО СОБРАН В ПИТОНЕ ===")
+    # 5. Копируем файлы главного сайта в корень dist
+    for main_file in ["index.html", "style.css", "script.js"]:
+        if os.path.exists(main_file):
+            shutil.copy(main_file, os.path.join("dist", main_file))
+
+    print("=== ВЕСЬ САЙТ И САД УСПЕШНО СКОМПИЛИРОВАНЫ В DIST ===")
 
 
 if __name__ == "__main__":
