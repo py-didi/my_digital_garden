@@ -1,51 +1,86 @@
-// Подтягиваем ретро-шрифты через @font-face (без @import, чтобы PostCSS не ругался)
-@font-face {
-    font-family: 'VT323';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/vt323/v17/pxiByp0ihIEF2isfFJA.woff2') format('woff2');
+// custom.scss
+
+// === 1. ЗАМЕНА НАДПИСИ "Quartz 5" НА ТВОЕ 64px ПИКСЕЛЬ-АРТ ЛОГО ===
+.page-title {
+    /* Полностью прячем текст "Quartz 5" */
+    font-size: 0 !important;
+    color: transparent !important;
+    text-shadow: none !important;
+
+    /* Подставляем твой логотип */
+    display: inline-block !important;
+    width: 64px !important;
+    /* Если захочешь сделать покрупнее, поставь 128px */
+    height: 64px !important;
+    /* Если захочешь сделать покрупнее, поставь 128px */
+
+    background-image: url('/garden/static/logo.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: left center !important;
+
+    /* Отключаем размытие для пиксель-арта */
+    image-rendering: pixelated !important;
+    image-rendering: -moz-crisp-edges !important;
+    image-rendering: crisp-edges !important;
 }
 
-@font-face {
-    font-family: 'Share Tech Mono';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/sharetechmono/v15/Jjd4Te36-B-NtqsoMOV2wX9P_4E.woff2') format('woff2');
+// === 2. СКРЫВАЕМ ГРАФ ЗАМЕТОК ===
+.graph,
+.graph-outer,
+div[class*="graph"] {
+    display: none !important;
 }
 
-// Общий фон страницы
+// === 3. РАСШИРЯЕМ ТЕКСТ (убираем сжатую полоску в центре) ===
+.page {
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.center {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+article {
+    max-width: 100% !important;
+}
+
+// === 4. ПРОЗРАЧНОСТЬ ДЛЯ КАНВАСА НА ФОНЕ ===
 body {
-    background-color: #000000 !important;
+    background-color: transparent !important;
     color: #00ff66 !important;
     font-family: 'Share Tech Mono', monospace !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-// Превращаем центральную область Quartz в неоновую карточку
-.page {
-    max-width: 800px !important;
-    margin: 40px auto !important;
-    padding: 30px !important;
-    background-color: #000000 !important;
-    border: 2px solid #00f0ff !important;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.1) !important;
-    border-radius: 2px;
+#space-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -1;
+    pointer-events: none;
 }
 
-// Заголовки в стиле главной (VT323 / Neon Cyan)
+// === ШРИФТЫ И ССЫЛКИ ===
 h1,
 h2,
 h3,
-.page-title,
 a.internal {
     font-family: 'VT323', monospace !important;
     color: #ffffff !important;
     text-shadow: 0 0 8px #00f0ff !important;
-    letter-spacing: 1px;
 }
 
-// Разделительные линии (Розовый неон)
 hr {
     border: none !important;
     border-top: 2px solid #ff0055 !important;
@@ -53,7 +88,6 @@ hr {
     margin: 20px 0 !important;
 }
 
-// Ссылки
 a {
     color: #00ff66 !important;
     text-decoration: none !important;
@@ -62,17 +96,4 @@ a {
         color: #ffffff !important;
         text-shadow: 0 0 8px #00ff66 !important;
     }
-}
-
-// Всплывающий поиск и боковые панели
-.explorer,
-.sidebar,
-search {
-    font-family: 'Share Tech Mono', monospace !important;
-}
-
-// Граф заметок (Graph View)
-.graph {
-    border: 1px solid #ff0055 !important;
-    box-shadow: 0 0 8px rgba(255, 0, 85, 0.3) !important;
 }
