@@ -1,5 +1,3 @@
-# build.py
-
 import os
 import shutil
 
@@ -8,33 +6,34 @@ import markdown
 from jinja2 import Environment, FileSystemLoader
 
 CONTENT_DIR = "content"
-OUTPUT_DIR = "dist/garden"
+OUTPUT_DIR = "garden"  # Выгружаем прямо в папку garden!
 TEMPLATES_DIR = "templates"
 STATIC_DIR = "static"
 
 
 def build():
-    # 1. Подготовка папки назначения
-    if os.path.exists("dist"):
-        shutil.rmtree("dist")
+    # 1. Очищаем/создаем папку garden
+    if os.path.exists(OUTPUT_DIR):
+        shutil.rmtree(OUTPUT_DIR)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # 2. Копирование статики сада (логотип, garden.css)
+    # 2. Копируем статику сада (logo.png, garden.css) в garden/static/
     out_static = os.path.join(OUTPUT_DIR, "static")
     if os.path.exists(STATIC_DIR):
         shutil.copytree(STATIC_DIR, out_static)
 
-    # 3. Настройка шаблонизатора Jinja2
+    # 3. Настраиваем шаблонизатор Jinja2
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     template = env.get_template("base.html")
 
-    # 4. Рендеринг всех заметок из Обсидиана
+    # 4. Переводим Obsidian .md заметки из content/ в HTML в garden/
     for root, _, files in os.walk(CONTENT_DIR):
         for file in files:
             if file.endswith(".md"):
                 filepath = os.path.join(root, file)
                 post = frontmatter.load(filepath)
 
+                # Парсим Markdown в HTML
                 html_content = markdown.markdown(
                     post.content, extensions=["fenced_code", "tables", "nl2br"]
                 )
@@ -59,12 +58,7 @@ def build():
                 with open(out_path, "w", encoding="utf-8") as f:
                     f.write(rendered_html)
 
-    # 5. Копируем файлы главного сайта в корень dist
-    for main_file in ["index.html", "style.css", "script.js"]:
-        if os.path.exists(main_file):
-            shutil.copy(main_file, os.path.join("dist", main_file))
-
-    print("=== ВЕСЬ САЙТ И САД УСПЕШНО СКОМПИЛИРОВАНЫ В DIST ===")
+    print("=== ЗАМЕТКИ ИЗ OBSIDIAN УСПЕШНО СКОМПИЛИРОВАНЫ В GARDEN ===")
 
 
 if __name__ == "__main__":

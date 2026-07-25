@@ -1,4 +1,4 @@
-name: Build in GitHub Actions and Deploy to VPS
+name: Build and Deploy Digital Garden
 
 on:
   push:
@@ -10,23 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Забираем код репозитория
+      # 1. Забираем код из GitHub
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Поднимаем Python прямо в облаке GitHub
+      # 2. Настраиваем Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3. Собираем весь сайт
-      - name: Build Site
+      # 3. Собираем заметки из Обсидиана в HTML-папку garden
+      - name: Build Garden HTML
         run: |
           pip install -r requirements.txt
-          python3 build.py
+          python build.py
 
-      # 4. Закидываем готовый HTML/CSS на твой VPS
+      # 4. Копируем сайт и папку garden на VPS
       - name: Copy files to VPS via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -34,6 +34,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "dist/*"
+          source: "index.html,style.css,script.js,garden"
           target: "/var/www/my_digital_garden"
-          strip_prefix: "dist"
