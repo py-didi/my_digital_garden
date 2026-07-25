@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} — Digital Garden</title>
-    <!-- Подключаем именно garden.css -->
+    <title>{{ title }} — The Antresoli's Digital Garden</title>
     <link rel="stylesheet" href="/garden/static/garden.css">
 </head>
 
@@ -14,11 +13,27 @@
 
     <div class="layout">
         <header class="header">
+            <!-- Логотип -->
             <a href="/garden/" class="logo-link">
                 <img src="/garden/static/logo.png" alt="Logo" class="pixel-logo">
             </a>
+
+            <!-- Боковое меню навигации -->
+            <nav class="sidebar-nav">
+                <div class="nav-title">// Заметки</div>
+                <ul>
+                    {% for post in posts %}
+                    <li>
+                        <a href="{{ post.url }}" class="nav-link {% if post.url == current_url %}active{% endif %}">
+                            {{ post.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
         </header>
 
+        <!-- Контент текущей заметки -->
         <main class="content">
             {{ content | safe }}
         </main>
