@@ -20,11 +20,19 @@ jobs:
           script: |
             set -e
 
-            # 1. ОБНОВЛЯЕМ ИСХОДНИКИ
+            # 1. ПРОВЕРЯЕМ И ОБНОВЛЯЕМ ИСХОДНИКИ
             git config --global --add safe.directory /var/www/my_digital_garden
-            cd /var/www/my_digital_garden
-            git fetch --all
-            git reset --hard origin/main
+
+            if [ ! -d "/var/www/my_digital_garden/.git" ]; then
+              echo "Папка не является git-репозиторием. Инициализируем..."
+              rm -rf /var/www/my_digital_garden
+              git clone https://github.com/py-didi/my_digital_garden.git /var/www/my_digital_garden
+              cd /var/www/my_digital_garden
+            else
+              cd /var/www/my_digital_garden
+              git fetch --all
+              git reset --hard origin/main
+            fi
 
             # 2. УСТАНАВЛИВАЕМ ЗАВИСИМОСТИ И СОБИРАЕМ САД
             python3 -m pip install -r requirements.txt --break-system-packages || python3 -m pip install -r requirements.txt
