@@ -1,18 +1,17 @@
-// custom.scss
-
-// === 1. ЛОГОТИП (Заменяем Quartz 5 на твоё пиксельное лого 64x64) ===
 .page-title {
-    display: block !important;
     margin-bottom: 20px !important;
 }
 
+.page-title,
 .page-title a {
-    /* Полностью прячем текст "Quartz 5" */
     font-size: 0 !important;
     color: transparent !important;
     text-shadow: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+}
 
-    /* Подставляем твой logo.png */
+.page-title a {
     display: inline-block !important;
     width: 64px !important;
     height: 64px !important;
@@ -22,107 +21,7 @@
     background-repeat: no-repeat !important;
     background-position: left center !important;
 
-    /* Чёткие границы для пиксель-арта без размытия */
     image-rendering: pixelated !important;
     image-rendering: -moz-crisp-edges !important;
     image-rendering: crisp-edges !important;
-
-    /* Убираем ховер-эффекты и пропадание */
-    opacity: 1 !important;
-    transition: none !important;
-}
-
-// === 2. УБИРАЕМ РАМКУ И НЕОН ВОКРУГ СТРАНИЦЫ ===
-.page {
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-}
-
-// === 3. РАСТЯГИВАЕМ КОНТЕНТ (Убираем сжатую колонку) ===
-#quartz-body {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    gap: 40px !important;
-    width: 100% !important;
-}
-
-// Левая колонка (Поиск, Навигация)
-.sidebar.left {
-    width: 220px !important;
-    min-width: 220px !important;
-    flex-shrink: 0 !important;
-}
-
-// Центральная колонка с текстом (Занимает ВСЁ свободное место)
-.center,
-article {
-    flex-grow: 1 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-}
-
-// === 4. УБИРАЕМ ПРАВУЮ КОЛОНКУ (Граф заметок) ===
-.sidebar.right,
-.right,
-.graph,
-.graph-outer,
-.toc,
-div[class*="graph"] {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    visibility: hidden !important;
-}
-
-// === 5. ОБЩИЙ ФОН И СТИЛИ ===
-body {
-    background-color: transparent !important;
-    color: #00ff66 !important;
-    font-family: 'Share Tech Mono', monospace !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-#space-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    z-index: -1;
-    pointer-events: none;
-}
-
-h1,
-h2,
-h3,
-a.internal {
-    font-family: 'VT323', monospace !important;
-    color: #ffffff !important;
-    text-shadow: 0 0 8px #00f0ff !important;
-}
-
-hr {
-    border: none !important;
-    border-top: 2px solid #ff0055 !important;
-    box-shadow: 0 0 8px #ff0055 !important;
-    margin: 20px 0 !important;
-}
-
-a {
-    color: #00ff66 !important;
-    text-decoration: none !important;
-
-    &:hover {
-        color: #ffffff !important;
-        text-shadow: 0 0 8px #00ff66 !important;
-    }
 }
