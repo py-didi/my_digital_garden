@@ -27,15 +27,15 @@ jobs:
             git reset --hard origin/main
 
             # 2. УСТАНАВЛИВАЕМ ЗАВИСИМОСТИ И СОБИРАЕМ САД
-            python3 -m pip install -r requirements.txt
+            python3 -m pip install -r requirements.txt --break-system-packages || python3 -m pip install -r requirements.txt
             python3 build.py
 
-            # 3. ПЕРЕНОСИМ ГОТОВЫЙ HTML В ПАПКУ GARDEN
+            # 3. ПУБЛИКУЕМ САД В /garden/
             mkdir -p /var/www/my_digital_garden/garden
             rm -rf /var/www/my_digital_garden/garden/*
-            cp -r /var/www/my_digital_garden/dist/garden/* /var/www/my_digital_garden/garden/
+            cp -r /var/www/my_digital_garden/dist/garden/. /var/www/my_digital_garden/garden/
 
             # 4. ЧИСТКА ВРЕМЕННОЙ СБОРКИ
             rm -rf /var/www/my_digital_garden/dist
 
-            echo "=== ДЕПЛОЙ СВОЕГО ГЕНЕРАТОРА ЗАВЕРШЕН ==="
+            echo "=== ВСЁ СТИЛЬНО И ЧИСТО ЗАДЕПЛОЕНО ==="
