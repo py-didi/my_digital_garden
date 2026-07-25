@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} — Digital Garden</title>
+    <!-- Подключаем именно garden.css -->
+    <link rel="stylesheet" href="/garden/static/garden.css">
+</head>
+
+<body>
+    <canvas id="space-canvas"></canvas>
+
+    <div class="layout">
+        <header class="header">
+            <a href="/garden/" class="logo-link">
+                <img src="/garden/static/logo.png" alt="Logo" class="pixel-logo">
+            </a>
+        </header>
+
+        <main class="content">
+            {{ content | safe }}
+        </main>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>
