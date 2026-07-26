@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} — The Antresoli's Digital Garden</title>
+    <title>{{ title }} — The Antresoli</title>
     <link rel="stylesheet" href="/garden/static/garden.css">
 </head>
 
@@ -13,12 +13,11 @@
 
     <div class="layout">
         <header class="header">
-            <!-- Логотип -->
-            <a href="https://theantresoli.ru" class="logo-link">
-                <img src="/garden/static/logo.png" alt="Logo" class="pixel-logo">
+            <!-- Ссылке и тегу <img> даем id="site-logo" -->
+            <a href="/garden/" class="logo-link">
+                <img id="site-logo" src="/garden/static/logo.png" alt="Logo" class="pixel-logo">
             </a>
 
-            <!-- Боковое меню навигации -->
             <nav class="sidebar-nav">
                 <div class="nav-title">// Заметки</div>
                 <ul>
@@ -33,13 +32,41 @@
             </nav>
         </header>
 
-        <!-- Контент текущей заметки -->
         <main class="content">
             {{ content | safe }}
         </main>
     </div>
 
     <script src="/script.js"></script>
+
+    <!-- Скрипт случайной смены логотипа -->
+    <script>
+        (function () {
+            const LOGOS = {{ logos_json | safe
+        }};
+        const logoImg = document.getElementById('site-logo');
+
+        if (logoImg && LOGOS.length > 0) {
+            let currentLogo = '';
+
+            function setRandomLogo() {
+                // Исключаем повтор текущей картинки, если всего их > 1
+                let available = LOGOS.filter(l => l !== currentLogo);
+                if (available.length === 0) available = LOGOS;
+
+                const nextLogo = available[Math.floor(Math.random() * available.length)];
+                currentLogo = nextLogo;
+                logoImg.src = nextLogo;
+            }
+
+            // 1. Случайная картинка при каждом перезаходе/обновлении
+            setRandomLogo();
+
+            // 2. Автоматическая смена каждые 60 секунд (60 000 мс)
+            setInterval(setRandomLogo, 60000);
+        }
+        }) ();
+    </script>
 </body>
 
 </html>

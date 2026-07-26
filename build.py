@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import shutil
@@ -13,17 +14,10 @@ STATIC_DIR = "static"
 
 
 def parse_wikilinks(text):
-    """
-    Превращает Обсидиановские ссылки:
-    [[music]] -> <a href="/garden/music.html" class="internal-link">music</a>
-    [[music|Про музыку]] -> <a href="/garden/music.html" class="internal-link">Про музыку</a>
-    """
-
     def replacer(match):
         target = match.group(1).strip()
         label = match.group(2).strip() if match.group(2) else target
 
-        # Если ссылка ведет на главную
         if target.lower() in ["index", "home", "welcome"]:
             url = "/garden/"
         else:
@@ -31,7 +25,6 @@ def parse_wikilinks(text):
 
         return f'<a href="{url}" class="internal-link">{label}</a>'
 
-    # Регулярка ищет [[target]] или [[target|label]]
     pattern = r"\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]"
     return re.sub(pattern, replacer, text)
 
@@ -47,10 +40,23 @@ def build():
     if os.path.exists(STATIC_DIR):
         shutil.copytree(STATIC_DIR, out_static)
 
+    # 3. Сканируем папку static/logos/
+    logos_dir = os.path.join(STATIC_DIR, "logos")
+    logo_files = []
+
+    if os.path.exists(logos_dir):
+        for file in os.listdir(logos_dir):
+            if file.lower().endswith((".png", ".jpg", ".jpeg", ".webp", ".gif")):
+                logo_files.append(f"/garden/static/logos/{file}")
+
+    # Фоллбэк, если папка пуста или её нет
+    if not logo_files:
+        logo_files = ["/garden/static/logo.png"]
+
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     template = env.get_template("base.html")
 
-    # 3. Собираем список постов для бокового меню
+    # 4. Собираем посты для бокового меню
     posts = []
     for root, _, files in os.walk(CONTENT_DIR):
         for file in files:
@@ -84,17 +90,15 @@ def build():
 
     posts.sort(key=lambda x: (0 if x["is_index"] else 1, x["title"]))
 
-    # 4. Рендерим посты
+    # 5. Генерация HTML
     for root, _, files in os.walk(CONTENT_DIR):
         for file in files:
             if file.endswith(".md"):
                 filepath = os.path.join(root, file)
                 post = frontmatter.load(filepath)
 
-                # Обрабатываем [[wikilinks]] ДО конвертации markdown
                 content_with_links = parse_wikilinks(post.content)
 
-                # Парсим Markdown в HTML
                 html_content = markdown.markdown(
                     content_with_links, extensions=["fenced_code", "tables", "nl2br"]
                 )
@@ -125,13 +129,14 @@ def build():
                     content=html_content,
                     posts=posts,
                     current_url=current_url,
+                    logos_json=json.dumps(logo_files),  # Передаем JSON-массив логотипов
                 )
 
                 out_path = os.path.join(target_dir, out_filename)
                 with open(out_path, "w", encoding="utf-8") as f:
                     f.write(rendered_html)
 
-    print("=== САД С ПОДДЕРЖКОЙ WIKILINKS УСПЕШНО СКОМПИЛИРОВАН ===")
+    print(f"=== СКОМПИЛИРОВАНО (Найдено логотипов: {len(logo_files)}) ===")
 
 
 if __name__ == "__main__":
