@@ -284,3 +284,31 @@ h1.glitch-title {
     text-align: center;
     margin-top: 0.8rem;
 }
+
+/* --- Футер и ASCII-арт --- */
+.site-footer {
+  margin-top: 80px;
+  padding: 30px 20px;
+  text-align: center;
+  border-top: 1px dashed rgba(0, 255, 102, 0.2);
+}
+
+.ascii-art {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-size: 10px;          /* Размер шрифта подгоняй под ширину арта */
+  line-height: 1.1;         /* Плотность строк, чтобы арт не разрывало */
+  color: #00ff66;
+  text-shadow: 0 0 5px rgba(0, 255, 102, 0.6);
+  white-space: pre;         /* Сохраняет все пробелы и переводы строк */
+  display: inline-block;
+  text-align: left;         /* Чтобы сам арт внутри контейнера не съезжал */
+  margin: 0 auto 15px auto;
+  max-width: 100%;
+  overflow-x: auto;         /* Горизонтальный скролл, если арт не влезет на телефоне */
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
