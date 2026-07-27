@@ -1,11 +1,10 @@
 ---
-title: Indie Web. Начало нового приключения
+title: Indie Web. The new jorney
 ---
+# Blog
 
-# Блог
+Hi! My name is Dima Antresoli, I make music and tinker with all kinds of computer stuff. And for a long time, my Roman Empire was "that very" open internet I remembered from childhood. 
+This resource is precisely that corner of the vast web. No algorithms, no Big Data, no trying to sell you anything. Welcome!
 
-Привет! Меня зовут Дима Antresoli, я делаю музыку и ковыряюсь к разных компьютерных штуках. И моей римской империей долгое время был "тот самый" свободный интернет, который запомнился мне с детства. 
-Данный ресурс - как раз и является тем самым уголком бескрайнего вэба. Без алгоритмов, без Big Data, без попытки продать что-либо. Добро пожаловать!
-
-## Разделы
-- [[music]] — Про музыку и железо
+## Sections
+- [[music]] — About music and hardware
